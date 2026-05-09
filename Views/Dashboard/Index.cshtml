@@ -1,4 +1,4 @@
-@model StallFruitsManagement.Controllers.DashboardViewModel
+@model StallFruitsManagement.Models.DashboardViewModel
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -17,44 +17,36 @@
         <div class="metric-card">
             <div class="metric-info">
                 <h6>Total Items</h6>
-                <div class="metric-value">@Model.TotalItems</div>
+                <div id="totalItems" class="metric-value">@Model.TotalItems</div>
             </div>
-            <div class="metric-icon fresh">
-                ✓
-            </div>
+            <div class="metric-icon fresh">✓</div>
         </div>
 
         <!-- Fresh Stock Card -->
         <div class="metric-card">
             <div class="metric-info">
                 <h6>Fresh Stock</h6>
-                <div class="metric-value">@Model.FreshStock.ToString("F0") kg</div>
+                <div id="freshStock" class="metric-value">@Model.FreshStock.ToString("F0") kg</div>
             </div>
-            <div class="metric-icon orange">
-                📦
-            </div>
+            <div class="metric-icon orange">📦</div>
         </div>
 
         <!-- Low Stock Card -->
         <div class="metric-card">
             <div class="metric-info">
                 <h6>Low Stock</h6>
-                <div class="metric-value">@Model.LowStockItems</div>
+                <div id="lowStock" class="metric-value">@Model.LowStockItems</div>
             </div>
-            <div class="metric-icon yellow">
-                ⚠️
-            </div>
+            <div class="metric-icon yellow">⚠️</div>
         </div>
 
         <!-- Spoiled/Out Card -->
         <div class="metric-card">
             <div class="metric-info">
                 <h6>Spoiled / Out</h6>
-                <div class="metric-value">@Model.SpoiledItems</div>
+                <div id="spoiledItems" class="metric-value">@Model.SpoiledItems</div>
             </div>
-            <div class="metric-icon red">
-                ✕
-            </div>
+            <div class="metric-icon red">✕</div>
         </div>
     </div>
 
@@ -77,7 +69,7 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="recentItemsTbody">
                         @foreach (var item in Model.RecentItems)
                         {
                             <tr>
@@ -110,3 +102,72 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/%40microsoft/signalr@7.0.7/dist/browser/signalr.min.js"></script>
+    <script>
+        (function () {
+            function toNumber(v) { return typeof v === 'number' ? v : (v ? Number(v) : 0); }
+
+            function unitShort(unit) {
+                return unit === 'Kilogram' || unit === 'Kilograms' ? 'kg'
+                    : unit === 'Gram' || unit === 'Grams' ? 'g'
+                    : unit === 'Pound' ? 'lbs'
+                    : unit === 'Piece' ? 'pcs'
+                    : unit;
+            }
+
+            function getStatusBadge(item) {
+                var qty = toNumber(item.quantity ?? item.Quantity);
+                if (qty === 0) return '<span class="status-badge status-out">Out</span>';
+                if (qty < 20) return '<span class="status-badge status-low">Low</span>';
+                return '<span class="status-badge status-fresh">Fresh</span>';
+            }
+
+            var connection = new signalR.HubConnectionBuilder()
+                .withUrl('/inventoryHub')
+                .withAutomaticReconnect()
+                .build();
+
+            connection.on('InventoryChanged', function (dashboard) {
+                try {
+                    var total = dashboard.totalItems ?? dashboard.TotalItems;
+                    var fresh = dashboard.freshStock ?? dashboard.FreshStock;
+                    var low = dashboard.lowStockItems ?? dashboard.LowStockItems;
+                    var spoiled = dashboard.spoiledItems ?? dashboard.SpoiledItems;
+                    var recent = dashboard.recentItems ?? dashboard.RecentItems ?? [];
+
+                    var elTotal = document.getElementById('totalItems');
+                    var elFresh = document.getElementById('freshStock');
+                    var elLow = document.getElementById('lowStock');
+                    var elSpoiled = document.getElementById('spoiledItems');
+                    var tbody = document.getElementById('recentItemsTbody');
+
+                    if (elTotal) elTotal.textContent = total ?? '0';
+                    if (elFresh) elFresh.textContent = (Math.round((fresh ?? 0) * 100) / 100) + ' kg';
+                    if (elLow) elLow.textContent = low ?? '0';
+                    if (elSpoiled) elSpoiled.textContent = spoiled ?? '0';
+
+                    if (tbody) {
+                        tbody.innerHTML = '';
+                        recent.forEach(function (item) {
+                            var qty = item.quantity ?? item.Quantity;
+                            var unit = item.unit ?? item.Unit ?? '';
+                            var tr = document.createElement('tr');
+                            tr.innerHTML = '<td style="font-weight:500">' + (item.name ?? item.Name) + '</td>' +
+                                '<td>' + (item.category ?? item.Category) + '</td>' +
+                                '<td>' + qty + ' ' + unitShort(unit) + '</td>' +
+                                '<td>' + getStatusBadge(item) + '</td>';
+                            tbody.appendChild(tr);
+                        });
+                    }
+                }
+                catch (e) {
+                    console.error('Error applying dashboard update', e);
+                }
+            });
+
+            connection.start().catch(function (err) { console.error(err.toString()); });
+        })();
+    </script>
+}
