@@ -1,6 +1,6 @@
 @model IEnumerable<StallFruitsManagement.Models.InventoryItem>
 @{
-    ViewData["Title"] = "Inventory";
+    ViewData["Title"] = "Products";
     var selectedCategory = ViewData["SelectedCategory"] as string ?? string.Empty;
 
     string GetUnitShortName(StallFruitsManagement.Models.UnitType unit)
@@ -16,101 +16,78 @@
     }
 }
 
-<div class="page-header">
+<div class="inventory-header">
     <div>
-        <p class="eyebrow">Inventory dashboard</p>
-        <h1>Vegetables stall inventory</h1>
-        <p class="text-muted">Track stock, pricing and category status with a fresh green market theme.</p>
+        <h1>Products</h1>
+        <p style="color: #6b7280; margin: 0.5rem 0 0 0;">Manage your fruits and vegetables inventory</p>
     </div>
-    <a asp-action="Create" class="btn btn-primary btn-lg">Add new item</a>
+    <a asp-action="Create" class="btn-add">+ Add Item</a>
 </div>
 
-<div class="card card-panel mb-4">
-    <div class="card-body">
-        <form method="get" class="row gy-2 gx-2 align-items-center">
-            <div class="col-auto">
-                <label class="visually-hidden" for="category">Category filter</label>
-                <select id="category" name="category" class="form-select form-select-sm">
-                    <option value="">All categories</option>
-                    @if (selectedCategory == "Fruit")
-                    {
-                        <option value="Fruit" selected>Fruit</option>
-                    }
-                    else
-                    {
-                        <option value="Fruit">Fruit</option>
-                    }
-                    @if (selectedCategory == "Vegetable")
-                    {
-                        <option value="Vegetable" selected>Vegetable</option>
-                    }
-                    else
-                    {
-                        <option value="Vegetable">Vegetable</option>
-                    }
-                </select>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-outline-secondary btn-sm">Filter</button>
-            </div>
-        </form>
-    </div>
+<!-- Filters -->
+<div class="inventory-filters">
+    <a href="@Url.Action("Index", "Inventory")" class="@(string.IsNullOrEmpty(selectedCategory) ? "active" : "")">All Items</a>
+    <a href="@Url.Action("Index", "Inventory", new { category = "Fruit" })" class="@(selectedCategory == "Fruit" ? "active" : "")">Fruits</a>
+    <a href="@Url.Action("Index", "Inventory", new { category = "Vegetable" })" class="@(selectedCategory == "Vegetable" ? "active" : "")">Vegetables</a>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="card card-panel text-center py-5">
-        <div class="card-body">
-            <h2 class="h5">No inventory items yet</h2>
-            <p class="text-muted">Start by adding a new fruit or vegetable item.</p>
-            <a asp-action="Create" class="btn btn-primary">Add first item</a>
-        </div>
+    <div style="background: white; border-radius: 0.75rem; padding: 3rem; text-align: center; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+        <h2 style="color: #1f2937; margin-bottom: 0.5rem;">No items found</h2>
+        <p style="color: #6b7280; margin-bottom: 1.5rem;">Start by adding a new fruit or vegetable item.</p>
+        <a asp-action="Create" class="btn-add">Add First Item</a>
     </div>
 }
 else
 {
-    <div class="table-responsive card card-panel">
-        <table class="table align-middle mb-0">
-            <thead>
-                <tr>
-                    <th style="width: 80px;">Photo</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th class="text-end">Quantity</th>
-                    <th class="text-end">Price</th>
-                    <th class="text-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.ImagePath))
-                            {
-                                <img src="@item.ImagePath" alt="@item.Name" class="img-thumbnail" style="width: 70px; height: 70px; object-fit: cover;" />
-                            }
-                            else
-                            {
-                                <div class="placeholder-image" style="width: 70px; height: 70px; background: #ecfdf5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #16a34a; font-size: 12px;">No image</div>
-                            }
-                        </td>
-                        <td>
-                            <strong>@item.Name</strong>
-                        </td>
-                        <td>
-                            <span class="badge badge-category badge-category-@item.Category">@item.Category</span>
-                        </td>
-                        <td class="text-end">@item.Quantity @GetUnitShortName(item.Unit)</td>
-                        <td class="text-end">₱ @item.Price.ToString("N2")</td>
-                        <td class="text-end action-cell">
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary me-1">View</a>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="inventory-grid">
+        @foreach (var item in Model)
+        {
+            <div class="inventory-card">
+                <div class="inventory-card-img">
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="@item.ImagePath" alt="@item.Name" style="width: 100%; height: 100%; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <span style="color: #9ca3af;">📦 No Image</span>
+                    }
+                </div>
+                <div class="inventory-card-body">
+                    <div class="inventory-card-title">@item.Name</div>
+                    <div class="inventory-card-detail">
+                        <strong>Category:</strong> @item.Category
+                    </div>
+                    <div class="inventory-card-detail">
+                        <strong>Stock:</strong> @item.Quantity @GetUnitShortName(item.Unit)
+                    </div>
+                    <div class="inventory-card-detail">
+                        <strong>Price:</strong> ₱@item.Price.ToString("N2")
+                    </div>
+                    <div style="margin-top: 0.75rem;">
+                        @if (item.Quantity == 0)
+                        {
+                            <span class="status-badge status-out">Out of Stock</span>
+                        }
+                        else if (item.Quantity < 20)
+                        {
+                            <span class="status-badge status-low">Low Stock</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-fresh">In Stock</span>
+                        }
+                    </div>
+                    <div class="inventory-card-actions">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn-small">View</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-small">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-small btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 }
+

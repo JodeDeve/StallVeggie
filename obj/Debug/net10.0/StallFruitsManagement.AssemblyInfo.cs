@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StallFruitsManagement")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8779a421fd54f8b5c04561cb6aac21ddc372a32")]
 [assembly: System.Reflection.AssemblyProductAttribute("StallFruitsManagement")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StallFruitsManagement")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

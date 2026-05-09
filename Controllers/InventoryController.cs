@@ -1,25 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using StallFruitsManagement.Models;
+using StallFruitsManagement.Hubs;
+using StallFruitsManagement.Services;
 
 namespace StallFruitsManagement.Controllers
 {
     public class InventoryController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IInventoryService _inventoryService;
+        private readonly IHubContext<InventoryHub> _hubContext;
 
-        public InventoryController(IWebHostEnvironment webHostEnvironment)
+        public InventoryController(IWebHostEnvironment webHostEnvironment, IInventoryService inventoryService, IHubContext<InventoryHub> hubContext)
         {
             _webHostEnvironment = webHostEnvironment;
+            _inventoryService = inventoryService;
+            _hubContext = hubContext;
         }
-
-        private static readonly List<InventoryItem> _items = new()
-        {
-            new InventoryItem { Id = 1, Name = "Apples", Category = CategoryType.Fruit, Quantity = 32, Unit = UnitType.Kilogram, Price = 85m },
-            new InventoryItem { Id = 2, Name = "Carrots", Category = CategoryType.Vegetable, Quantity = 18, Unit = UnitType.Kilogram, Price = 50m },
-            new InventoryItem { Id = 3, Name = "Bananas", Category = CategoryType.Fruit, Quantity = 24, Unit = UnitType.Kilogram, Price = 40m }
-        };
-
-        private static int _nextId = 4;
 
         private async Task<string?> SaveUploadedFile(IFormFile? file)
         {
@@ -52,7 +50,7 @@ namespace StallFruitsManagement.Controllers
 
         public IActionResult Index(string? category)
         {
-            var model = _items.AsEnumerable();
+            var model = _inventoryService.GetAll();
             if (!string.IsNullOrWhiteSpace(category) && Enum.TryParse<CategoryType>(category, out var activeCategory))
             {
                 model = model.Where(i => i.Category == activeCategory);
@@ -69,7 +67,7 @@ namespace StallFruitsManagement.Controllers
                 return NotFound();
             }
 
-            var item = _items.FirstOrDefault(i => i.Id == id);
+            var item = _inventoryService.GetById(id.Value);
             if (item is null)
             {
                 return NotFound();
@@ -98,8 +96,10 @@ namespace StallFruitsManagement.Controllers
                 item.ImagePath = await SaveUploadedFile(imageFile);
             }
 
-            item.Id = _nextId++;
-            _items.Add(item);
+            var added = _inventoryService.Add(item);
+            // Notify connected clients about the change
+            await _hubContext.Clients.All.SendAsync("InventoryChanged", _inventoryService.GetDashboard());
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -110,7 +110,7 @@ namespace StallFruitsManagement.Controllers
                 return NotFound();
             }
 
-            var item = _items.FirstOrDefault(i => i.Id == id);
+            var item = _inventoryService.GetById(id.Value);
             if (item is null)
             {
                 return NotFound();
@@ -133,23 +133,14 @@ namespace StallFruitsManagement.Controllers
                 return View(item);
             }
 
-            var storedItem = _items.FirstOrDefault(i => i.Id == id);
-            if (storedItem is null)
-            {
-                return NotFound();
-            }
-
-            storedItem.Name = item.Name;
-            storedItem.Category = item.Category;
-            storedItem.Quantity = item.Quantity;
-            storedItem.Unit = item.Unit;
-            storedItem.Price = item.Price;
-
             // Handle file upload
             if (imageFile is not null)
             {
-                storedItem.ImagePath = await SaveUploadedFile(imageFile);
+                item.ImagePath = await SaveUploadedFile(imageFile);
             }
+
+            _inventoryService.Update(item);
+            await _hubContext.Clients.All.SendAsync("InventoryChanged", _inventoryService.GetDashboard());
 
             return RedirectToAction(nameof(Index));
         }
@@ -161,7 +152,7 @@ namespace StallFruitsManagement.Controllers
                 return NotFound();
             }
 
-            var item = _items.FirstOrDefault(i => i.Id == id);
+            var item = _inventoryService.GetById(id.Value);
             if (item is null)
             {
                 return NotFound();
@@ -172,12 +163,12 @@ namespace StallFruitsManagement.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = _items.FirstOrDefault(i => i.Id == id);
-            if (item is not null)
+            var removed = _inventoryService.Delete(id);
+            if (removed)
             {
-                _items.Remove(item);
+                await _hubContext.Clients.All.SendAsync("InventoryChanged", _inventoryService.GetDashboard());
             }
 
             return RedirectToAction(nameof(Index));

@@ -7,71 +7,184 @@
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  background: #eef9ed;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-  scroll-behavior: smooth;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background: #f5f7fa;
 }
 
 body {
-  margin: 0;
-  background: #eef9ed;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+  width: 226px;
+  background: #1e293b;
+  color: white;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+  padding: 0 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-header h4 {
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.sidebar-nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: rgba(255, 255, 255, 0.7) !important;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: white !important;
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  min-width: 24px;
+}
+
+/* Header */
+.navbar {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+  color: #1e293b !important;
+  font-size: 1.2rem;
+}
+
+/* Main Content */
+main {
+  background: #f5f7fa;
+}
+
+.container-fluid {
+  max-width: 100%;
+}
+
+/* Dashboard Metrics */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-info h6 {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.metric-info .metric-value {
+  font-size: 1.75rem;
+  font-weight: 700;
   color: #1f2937;
 }
 
-.container {
-  max-width: 1140px;
-}
-
-.navbar {
-  background: rgba(236, 253, 245, 0.95);
-  border-bottom: 1px solid rgba(34, 197, 94, 0.18);
-}
-
-.nav-link {
-  color: #1f4338 !important;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  color: #15803d !important;
-}
-
-.footer {
-  border-top: none;
-  padding: 1.5rem 0;
-  color: #4b5563;
-}
-
-.page-header {
+.metric-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.metric-icon.fresh {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.metric-icon.orange {
+  background: #fed7aa;
+  color: #f97316;
+}
+
+.metric-icon.yellow {
+  background: #fef3c7;
+  color: #eab308;
+}
+
+.metric-icon.red {
+  background: #fecaca;
+  color: #dc2626;
+}
+
+/* Recent Produce Section */
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+}
+
+.recent-produce-card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1.75rem;
 }
 
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.78rem;
-  margin-bottom: 0.35rem;
-  color: #15803d;
-}
-
-.card-panel {
-  border: 1px solid rgba(16, 185, 129, 0.12);
-  border-radius: 1.5rem;
-  box-shadow: 0 24px 45px rgba(15, 23, 42, 0.08);
-  background: #ffffff;
-}
-
-.card-body {
-  padding: 1.8rem;
+.recent-produce-card .table {
+  margin-bottom: 0;
+  width: 100%;
 }
 
 .table {
@@ -82,20 +195,234 @@ body {
 .table td {
   border-top: 0;
   vertical-align: middle;
+  padding: 0.75rem;
 }
 
 .table thead th {
-  border-bottom: 1px solid #d1fae5;
-  color: #166534;
+  border-bottom: 2px solid #e5e7eb;
+  color: #374151;
   font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  background: #f9fafb;
 }
 
 .table tbody tr {
   transition: background 0.15s ease;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .table tbody tr:hover {
-  background: rgba(16, 185, 129, 0.08);
+  background: #f9fafb;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-fresh {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-low {
+  background: #fed7aa;
+  color: #92400e;
+}
+
+.status-out {
+  background: #fecaca;
+  color: #7f1d1d;
+}
+
+/* Buttons */
+.btn-add {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.btn-add:hover {
+  background: #16a34a;
+  color: white;
+}
+
+/* Inventory Page */
+.inventory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.inventory-header h1 {
+  font-size: 1.75rem;
+  color: #1f2937;
+  margin: 0;
+}
+
+.inventory-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.inventory-filters a,
+.inventory-filters button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #374151;
+}
+
+.inventory-filters a.active,
+.inventory-filters button.active {
+  background: #22c55e;
+  color: white;
+  border-color: #22c55e;
+}
+
+.inventory-filters a:hover,
+.inventory-filters button:hover {
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.inventory-card {
+  background: white;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.inventory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.inventory-card-img {
+  width: 100%;
+  height: 200px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.inventory-card-body {
+  padding: 1rem;
+}
+
+.inventory-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.inventory-card-detail {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.35rem;
+}
+
+.inventory-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-small {
+  flex: 1;
+  padding: 0.4rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.btn-small:hover {
+  background: #f3f4f6;
+}
+
+.btn-small.btn-danger {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.btn-small.btn-danger:hover {
+  background: #fecaca;
+}
+
+/* Form Styling */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-control {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #22c55e;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.btn-primary {
+  background: #22c55e;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #16a34a;
 }
 
 .table-responsive {

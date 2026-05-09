@@ -1,65 +1,62 @@
 @model StallFruitsManagement.Models.InventoryItem
 @{
-    ViewData["Title"] = "Create item";
+    ViewData["Title"] = "Add Product";
 }
 
-<div class="page-header mb-4">
-    <div>
-        <p class="eyebrow">New inventory item</p>
-        <h1>Add product</h1>
-        <p class="text-muted">Add a fruit or vegetable to your stall inventory.</p>
+<div style="max-width: 600px;">
+    <div class="mb-4">
+        <h1 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem;">Add New Product</h1>
+        <p style="color: #6b7280; margin: 0;">Add a fruit or vegetable to your inventory</p>
     </div>
-    <a asp-action="Index" class="btn btn-outline-secondary">Back to inventory</a>
-</div>
 
-<div class="card card-panel">
-    <div class="card-body">
+    <div style="background: white; border-radius: 0.75rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
         <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div asp-validation-summary="ModelOnly" style="color: #dc2626; margin-bottom: 1rem;"></div>
 
-            <div class="row gy-3">
-                <div class="col-md-6">
-                    <label asp-for="Name" class="form-label"></label>
-                    <input asp-for="Name" class="form-control form-control-lg" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" placeholder="e.g., Apples" />
+                <span asp-validation-for="Name" style="color: #dc2626; font-size: 0.85rem;"></span>
+            </div>
 
-                <div class="col-md-6">
-                    <label asp-for="Category" class="form-label"></label>
-                    <select asp-for="Category" class="form-select form-select-lg" asp-items="Html.GetEnumSelectList<StallFruitsManagement.Models.CategoryType>()"></select>
-                    <span asp-validation-for="Category" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="Category" class="form-label"></label>
+                <select asp-for="Category" class="form-control" asp-items="Html.GetEnumSelectList<StallFruitsManagement.Models.CategoryType>()"></select>
+                <span asp-validation-for="Category" style="color: #dc2626; font-size: 0.85rem;"></span>
+            </div>
 
-                <div class="col-md-6">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
                     <label asp-for="Quantity" class="form-label"></label>
-                    <input asp-for="Quantity" type="number" step="0.01" class="form-control form-control-lg" />
-                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                    <input asp-for="Quantity" type="number" step="0.01" class="form-control" placeholder="0" />
+                    <span asp-validation-for="Quantity" style="color: #dc2626; font-size: 0.85rem;"></span>
                 </div>
 
-                <div class="col-md-6">
+                <div class="form-group">
                     <label asp-for="Unit" class="form-label"></label>
-                    <select asp-for="Unit" class="form-select form-select-lg" asp-items="Html.GetEnumSelectList<StallFruitsManagement.Models.UnitType>()"></select>
-                    <span asp-validation-for="Unit" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-6">
-                    <label asp-for="Price" class="form-label"></label>
-                    <input asp-for="Price" type="number" step="0.01" class="form-control form-control-lg" placeholder="e.g., 85" />
-                    <small class="text-muted">Price in Philippine Pesos (PHP)</small>
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-12">
-                    <label for="imageFile" class="form-label">Product photo</label>
-                    <input type="file" id="imageFile" name="imageFile" class="form-control form-control-lg" accept="image/*" />
-                    <small class="text-muted">JPG, PNG, GIF or WebP (optional)</small>
+                    <select asp-for="Unit" class="form-control" asp-items="Html.GetEnumSelectList<StallFruitsManagement.Models.UnitType>()"></select>
+                    <span asp-validation-for="Unit" style="color: #dc2626; font-size: 0.85rem;"></span>
                 </div>
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary btn-lg me-2">Save item</button>
-                <a asp-action="Index" class="btn btn-outline-secondary btn-lg">Cancel</a>
+            <div class="form-group">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="e.g., 85" />
+                <small style="color: #6b7280;">Price in Philippine Pesos (PHP)</small>
+                <span asp-validation-for="Price" style="color: #dc2626; font-size: 0.85rem;"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="imageFile" class="form-label">Product Photo</label>
+                <input type="file" id="imageFile" name="imageFile" class="form-control" accept="image/*" />
+                <small style="color: #6b7280;">JPG, PNG, GIF or WebP (optional)</small>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button type="submit" class="btn-add" style="flex: 1; text-align: center; border: none; padding: 0.75rem;">Save Product</button>
+                <a asp-action="Index" style="flex: 1; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; background: white; cursor: pointer; text-decoration: none; color: #374151; text-align: center; transition: all 0.3s ease;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='white'">Cancel</a>
             </div>
         </form>
     </div>
 </div>
+

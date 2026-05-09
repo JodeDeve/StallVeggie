@@ -94,4 +94,5 @@
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/StallFruitsManagement.pdb
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/StallFruitsManagement.genruntimeconfig.cache
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/ref/StallFruitsManagement.dll
-/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/gbeuodin94-{0}-a8yes7cq0f-a8yes7cq0f.gz
+/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/StallFruitsManagement.sourcelink.json
+/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/gbeuodin94-{0}-9qd2v0gj5e-9qd2v0gj5e.gz

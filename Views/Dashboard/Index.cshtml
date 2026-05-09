@@ -1,0 +1,112 @@
+@model StallFruitsManagement.Controllers.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div>
+    <!-- Dashboard Header -->
+    <div class="mb-4">
+        <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Fresh Produce Dashboard</h1>
+        <p style="color: #6b7280; margin: 0;">Overview of fruits & vegetables stock</p>
+    </div>
+
+    <!-- Metrics Grid -->
+    <div class="metrics-grid">
+        <!-- Total Items Card -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h6>Total Items</h6>
+                <div class="metric-value">@Model.TotalItems</div>
+            </div>
+            <div class="metric-icon fresh">
+                ✓
+            </div>
+        </div>
+
+        <!-- Fresh Stock Card -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h6>Fresh Stock</h6>
+                <div class="metric-value">@Model.FreshStock.ToString("F0") kg</div>
+            </div>
+            <div class="metric-icon orange">
+                📦
+            </div>
+        </div>
+
+        <!-- Low Stock Card -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h6>Low Stock</h6>
+                <div class="metric-value">@Model.LowStockItems</div>
+            </div>
+            <div class="metric-icon yellow">
+                ⚠️
+            </div>
+        </div>
+
+        <!-- Spoiled/Out Card -->
+        <div class="metric-card">
+            <div class="metric-info">
+                <h6>Spoiled / Out</h6>
+                <div class="metric-value">@Model.SpoiledItems</div>
+            </div>
+            <div class="metric-icon red">
+                ✕
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Produce Section -->
+    <div class="recent-produce-card">
+        <div style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2 class="section-title" style="margin: 0;">Recent Produce</h2>
+                <a href="@Url.Action("Create", "Inventory")" class="btn-add">+ Add Item</a>
+            </div>
+
+            @if (Model.RecentItems.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.RecentItems)
+                        {
+                            <tr>
+                                <td style="font-weight: 500;">@item.Name</td>
+                                <td>@item.Category</td>
+                                <td>@item.Quantity @item.Unit</td>
+                                <td>
+                                    @if (item.Quantity == 0)
+                                    {
+                                        <span class="status-badge status-out">Out</span>
+                                    }
+                                    else if (item.Quantity < 20)
+                                    {
+                                        <span class="status-badge status-low">Low</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge status-fresh">Fresh</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p style="color: #6b7280; text-align: center; padding: 2rem;">No items in inventory yet.</p>
+            }
+        </div>
+    </div>
+</div>
