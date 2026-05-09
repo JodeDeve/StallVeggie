@@ -1,0 +1,44 @@
+@model StallFruitsManagement.Models.InventoryItem
+@{
+    ViewData["Title"] = "Delete item";
+
+    string GetUnitShortName(StallFruitsManagement.Models.UnitType unit)
+    {
+        return unit switch
+        {
+            StallFruitsManagement.Models.UnitType.Kilogram => "kg",
+            StallFruitsManagement.Models.UnitType.Gram => "g",
+            StallFruitsManagement.Models.UnitType.Pound => "lbs",
+            StallFruitsManagement.Models.UnitType.Piece => "pcs",
+            _ => ""
+        };
+    }
+}
+
+<div class="page-header mb-4">
+    <div>
+        <p class="eyebrow text-danger">Remove inventory item</p>
+        <h1>Delete item</h1>
+        <p class="text-muted">This will remove the item from your inventory.</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to inventory</a>
+</div>
+
+<div class="card card-panel border-danger-subtle">
+    <div class="card-body">
+        <h5 class="mb-3">Are you sure you want to delete <strong>@Model.Name</strong>?</h5>
+        <dl class="detail-list mb-4">
+            <dt>Category</dt>
+            <dd>@Model.Category</dd>
+            <dt>Quantity</dt>
+            <dd>@Model.Quantity @GetUnitShortName(Model.Unit)</dd>
+            <dt>Price per unit</dt>
+            <dd>₱ @Model.Price.ToString("N2")</dd>
+        </dl>
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger me-2">Delete</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
