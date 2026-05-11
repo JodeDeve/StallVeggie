@@ -539,3 +539,127 @@ main {
   margin: 0 auto;
   color: #374151;
 }
+
+/* Mobile sidebar toggle and responsive adjustments */
+.sidebar-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  padding: 0.35rem;
+  font-size: 1.25rem;
+  color: #1e293b;
+}
+.sidebar-toggle .hamburger {
+  display: inline-block;
+  width: 22px;
+  height: 2px;
+  background: #0f172a;
+  position: relative;
+}
+.sidebar-toggle .hamburger::before,
+.sidebar-toggle .hamburger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: #0f172a;
+}
+.sidebar-toggle .hamburger::before {
+  top: -7px;
+}
+.sidebar-toggle .hamburger::after {
+  top: 7px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1040;
+  display: none;
+  transition: opacity 0.2s ease;
+}
+.sidebar-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+@media (max-width: 991.98px) {
+  .app-layout {
+    flex-direction: column;
+    height: 100%;
+  }
+  .sidebar-nav {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100vh;
+    z-index: 1050;
+    width: 260px;
+    transition: left 0.25s ease;
+    padding-top: 2rem;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  }
+  body.sidebar-open .sidebar-nav {
+    left: 0;
+  }
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  header.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+  }
+  main {
+    padding: 1rem;
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+  .recent-produce-card {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .sidebar-overlay {
+    display: none;
+  }
+  body.sidebar-open .sidebar-overlay {
+    display: block;
+  }
+  .sidebar-nav .nav-link {
+    padding: 0.85rem 1rem;
+  }
+  .inventory-card-img {
+    height: 160px;
+  }
+  .inventory-card {
+    transition: none;
+  }
+  .table thead th {
+    font-size: 0.75rem;
+  }
+  .metric-info .metric-value {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .metric-icon {
+    width: 48px;
+    height: 48px;
+  }
+  .metric-info .metric-value {
+    font-size: 1.05rem;
+  }
+  .sidebar-nav {
+    width: 80%;
+  }
+}

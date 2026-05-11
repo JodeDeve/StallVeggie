@@ -22,7 +22,6 @@
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/scopedcss/bundle/StallFruitsManagement.styles.css
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/scopedcss/projectbundle/StallFruitsManagement.bundle.scp.css
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/05riejgda7-{0}-61n19gt1b8-61n19gt1b8.gz
-/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/qr3ah0l9kf-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/mo5p7fta5o-{0}-bqjiyaj88i-bqjiyaj88i.gz
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/zkjbw7sl1t-{0}-c2jlpeoesf-c2jlpeoesf.gz
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/cbp8cn9nl2-{0}-erw9l3u2r3-erw9l3u2r3.gz
@@ -95,4 +94,5 @@
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/StallFruitsManagement.genruntimeconfig.cache
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/ref/StallFruitsManagement.dll
 /Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/StallFruitsManagement.sourcelink.json
-/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/gbeuodin94-{0}-9qd2v0gj5e-9qd2v0gj5e.gz
+/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/gbeuodin94-{0}-6kz6zb6erl-6kz6zb6erl.gz
+/Users/jodey/websites/StallFruitsManagement/StallFruitsManagement/obj/Debug/net10.0/compressed/qr3ah0l9kf-{0}-3burb9fmbt-3burb9fmbt.gz
