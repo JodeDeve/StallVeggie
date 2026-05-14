@@ -28,7 +28,7 @@
                 <h6>Fresh Stock</h6>
                 <div id="freshStock" class="metric-value">@Model.FreshStock.ToString("F0") kg</div>
             </div>
-            <div class="metric-icon orange">📦</div>
+            <div class="metric-icon orange"></div>
         </div>
 
         <!-- Low Stock Card -->
@@ -37,7 +37,7 @@
                 <h6>Low Stock</h6>
                 <div id="lowStock" class="metric-value">@Model.LowStockItems</div>
             </div>
-            <div class="metric-icon yellow">⚠️</div>
+            <div class="metric-icon yellow">!3</div>
         </div>
 
         <!-- Spoiled/Out Card -->
@@ -55,7 +55,6 @@
         <div style="width: 100%;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                 <h2 class="section-title" style="margin: 0;">Recent Produce</h2>
-                <a href="@Url.Action("Create", "Inventory")" class="btn-add">+ Add Item</a>
             </div>
 
             @if (Model.RecentItems.Any())
